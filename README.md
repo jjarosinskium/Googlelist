@@ -86,7 +86,7 @@ Plik wyjątków umożliwia **wyłączenie określonych adresów IP** z listy `go
 ```
 
 Link `raw`, np.:  
-`[https://gist.githubusercontent.com/zarv1k/e1b37a1a5a2c10936fb532302416bed1/raw/google.exceptions.json](https://raw.githubusercontent.com/jjarosinskium/Googlelist/refs/heads/main/google.exceptions.json)`
+`https://raw.githubusercontent.com/jjarosinskium/Googlelist/refs/heads/main/google.exceptions.json`
 
 ---
 
