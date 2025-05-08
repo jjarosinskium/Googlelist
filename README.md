@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/94657a5b-c630-402a-bfb1-defedc8ce76e)Ten projekt umożliwia automatyczne pobieranie i aktualizację listy adresów IP należących do Google (np. Google Fonts, gstatic) przy pomocy MikroTika. Dzięki temu możesz dynamicznie tworzyć reguły firewall bazujące na rzeczywistych adresach Google, bez potrzeby ręcznej edycji.
+Ten projekt umożliwia automatyczne pobieranie i aktualizację listy adresów IP należących do Google (np. Google Fonts, gstatic) przy pomocy MikroTika. Dzięki temu możesz dynamicznie tworzyć reguły firewall bazujące na rzeczywistych adresach Google, bez potrzeby ręcznej edycji.
 ---
 ### 1. Zainstaluj parser JSON: `mikrotik-json-parser`
 W terminalu MikroTika:
