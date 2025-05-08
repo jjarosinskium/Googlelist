@@ -1,0 +1,83 @@
+:global fGoogleIpRange
+if (!any $fGoogleIpRange) do={ :global fGoogleIpRange do={
+  :local addressList $1
+  :local ipRangeUrl $2
+  :local exceptionsJsonUrl $3
+
+# load JSON parser - https://github.com/Winand/mikrotik-json-parser
+/system script run JParseFunctions
+
+# read file into JSONIn
+:global JSONIn ([/tool fetch url=$ipRangeUrl as-value output=user]->"data");
+
+# ensure sync token file exist
+:local syncTokenValue
+:local syncTokenFile ($addressList . ".sync-token")
+:local syncTokenFileName ($syncTokenFile . ".txt")
+
+if ([:len [/file find name=$syncTokenFileName]] = 0) do={
+  :execute script=":put 0" file=$syncTokenFile;
+  :set syncTokenValue ""
+} else={
+  :set syncTokenValue [/file get $syncTokenFileName contents]
+}
+
+# ensure JSON parser globals
+:global JSONUnload
+:global fJParse;
+:global fJParsePrint;
+:global JSONLoad
+:global JSONLoads
+
+# read JSON
+:global JParseOut [$fJParse];
+
+# print
+#$fJParsePrint
+
+:if ($syncTokenValue != $JParseOut->"syncToken") do={
+  # iterate over prefixes if prefixes is not empty
+  :if ([:len ($JParseOut->"prefixes")] > 0) do={
+    # save syncToken to file
+    :set syncTokenValue ($JParseOut->"syncToken")
+    /file set $syncTokenFileName contents=$syncTokenValue
+    # delete entire address-list
+    /ip firewall address-list remove [/ip firewall address-list find list=$addressList]
+    :foreach prefix in=($JParseOut->"prefixes") do={
+      :if ([:typeof ($prefix->"ipv4Prefix")]  = "str") do={
+        /ip firewall address-list add list=$addressList address=($prefix->"ipv4Prefix")
+      }
+    }
+  }
+} else={
+  :put "ip-range list is already synced"
+}
+
+# read exceptions from URL (when 3rd parameter is set) or from local file and disable each exception address-list
+:local exceptionsJson
+:local exceptionsFileName ($addressList . ".exceptions.json")
+if ([:len ($exceptionsJsonUrl)] > 0) do={
+  :put "Using exceptions URL"
+  :set exceptionsJson [$JSONLoads ([/tool fetch url=$exceptionsJsonUrl as-value output=user]->"data")]
+}
+if ([:len $exceptionsJson] = 0) do={
+  :put "Using exceptions file"
+  :set exceptionsJson [$JSONLoad $exceptionsFileName]
+}
+if ([:len $exceptionsJson] > 0) do={
+  :foreach k,v in=$exceptionsJson do={
+    /ip firewall address-list disable [find where list=$addressList address=$k]
+  }
+} else={
+  :put "Skip list exceptions"
+}
+
+
+# cleanup
+:set JSONIn
+:set JParseOut
+
+# unload JSON library
+$JSONUnload
+
+}}
