@@ -1,0 +1,5 @@
+/system script run fGoogleIpRange
+:global fGoogleIpRange
+
+$fGoogleIpRange "google" "https://www.gstatic.com/ipranges/goog.json" "https://gist.githubusercontent.com/zarv1k/e1b37a1a5a2c10936fb532302416bed1/raw/9a17fb866208332224dc6f736ed15b819c0bd857/google.exceptions.json"
+set $fGoogleIpRange
