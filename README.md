@@ -10,6 +10,8 @@ W terminalu MikroTika:
 
 > Parser zawiera wszystkie niezbędne funkcje w jednym pliku – `JParseFunctions`.
 
+### lub wgraj go ręcznie, wklejając kod z pliku 'JParseFunctions.txt'.
+
 ---
 
 ### 2. Dodaj skrypt funkcji `fGoogleIpRange`
@@ -57,8 +59,10 @@ Aby skrypt był uruchamiany codziennie automatycznie:
 
 ```
 /system scheduler
-add name=update_google_ips interval=1d start-time=04:00:00 on-event="/system script run google"
+add name=update_google_ips interval=1d start-time=08:00:00 on-event="/system script run google"
 ```
+
+### Lub ręcznie System > Scheduler
 
 ---
 
