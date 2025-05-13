@@ -61,6 +61,7 @@
   "162.120.128.0/17": "google-services",
   "162.216.148.0/22": "google-cloud",
   "162.222.176.0/21": "google-cloud",
+  "172.110.32.0/21": "google-frontends",
   "172.253.0.0/16": "google-frontends",
   "173.194.0.0/16": "google-frontends",
   "173.255.112.0/20": "google-cloud",
